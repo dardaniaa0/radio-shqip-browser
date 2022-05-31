@@ -17,7 +17,7 @@ const r = Router();
 r.get('/search', (endpointRequest, endpointResponse) => {
     let searchTerm = endpointRequest.query.term;
     
-    request(`de1.api.radio-browser.info/json/stations/search?name=${searchTerm}`, { json: true }, (searchError, searchResponse, searchBody) => {
+    request(`https://de1.api.radio-browser.info/json/stations/search?name=${searchTerm}`, { json: true }, (searchError, searchResponse, searchBody) => {
         if (searchError) {
             endpointResponse.status(500);
             endpointResponse.json({errorMessage: 'Failed to search'});
