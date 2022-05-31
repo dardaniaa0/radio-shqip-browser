@@ -1,66 +1,24 @@
 function parse(results) {
     var searchResults = {
-        movie: [],
-        podcast: [],
-        music: [],
-        musicVideo: [],
-        audiobook: [],
-        shortFilm: [], // I Don't think this is different from feature-movie
-        tvShow: [],
-        software: [],
-        ebook: []
+        station: []
      };
 
     for (index in results) {
-        const resultItem = results[index]; 
+        const resultItem = results[index];
         const wrapperType = resultItem.wrapperType
         const kind = resultItem.kind
 
         switch (wrapperType) {
-            case `audiobook`:
-                let audiobookItem = parseAudiobookSearchResult(resultItem);
-                searchResults.audiobook.push(audiobookItem);
-                break;
-            case `software`:
-                let softwareItem = parseSoftwareSearchResult(resultItem);
-                searchResults.software.push(softwareItem);
-                break;
             case `track`:
                 switch (kind) {
-                    case `feature-movie`:
+                    case `feature-station`:
                         let movieItem = parseMovieSearchResult(resultItem);
-                        searchResults.movie.push(movieItem);
-                        break;
-                    case `music-video`:
-                        let musicVideoItem = parseMusicVideoSearchResult(resultItem);
-                        searchResults.musicVideo.push(musicVideoItem);
-                        break;
-                    case `podcast`:
-                        let podcastItem = parsePodcastSearchResult(resultItem);
-                        searchResults.podcast.push(podcastItem);
-                        break;
-                    case `song`:
-                        let songItem = parseSongSearchResult(resultItem);
-                        searchResults.music.push(songItem);
-                        break;
-                    case `tv-episode`:
-                        let tvEpisodeItem = parseTVEpisodeSearchResult(resultItem);
-                        searchResults.tvShow.push(tvEpisodeItem);
+                        searchResults.station.push(movieItem);
                         break;
                     default:
                         break;
                 }
                 break;
-            default:
-                switch (kind) {
-                    case `ebook`:
-                        let ebookItem = parseEbookSearchResult(resultItem);
-                        searchResults.ebook.push(ebookItem);
-                        break;
-                    default:
-                        break;
-                }
-                break
         }
     }
 
@@ -68,16 +26,16 @@ function parse(results) {
 }
 
 function parseArtworkUrl(resultItem) {
-    if (resultItem.artworkUrl600 != null) {
-        return resultItem.artworkUrl600;
-    } else if (resultItem.artworkUrl512 != null) {
-        return resultItem.artworkUrl512;
-    } else if (resultItem.artworkUrl100 != null) {
-        return resultItem.artworkUrl100;
-    } else if (resultItem.artworkUrl60 != null) {
-        return resultItem.artworkUrl60;
-    } else if (resultItem.artworkUrl30 != null) {
-        return resultItem.artworkUrl30;
+    if (resultItem.favicon != null) {
+        return resultItem.favicon;
+    } else if (resultItem.favicon != null) {
+        return resultItem.favicon;
+    } else if (resultItem.favicon != null) {
+        return resultItem.favicon;
+    } else if (resultItem.favicon != null) {
+        return resultItem.favicon;
+    } else if (resultItem.favicon != null) {
+        return resultItem.favicon;
     } else {
         return null
     }
@@ -85,96 +43,24 @@ function parseArtworkUrl(resultItem) {
 
 function parsePodcastSearchResult(resultItem) {
     return {
-        id: resultItem.collectionId,
-        trackId: resultItem.collectionId,
-        name: resultItem.collectionName,
-        artwork: parseArtworkUrl(resultItem),
+        id: resultItem.stationuuid,
+        stationuuid: resultItem.collectionId,
+        name: resultItem.name,
+        favicon: parseArtworkUrl(resultItem),
         genre: resultItem.primaryGenreName,
         url: resultItem.collectionViewUrl,
-        albumArtworkURL: parseArtworkUrl(resultItem)
-    }
-}
-
-function parseSoftwareSearchResult(resultItem) {
-    return {
-        id: resultItem.trackId,
-        trackId: resultItem.trackId,
-        name: resultItem.trackName,
-        artwork: parseArtworkUrl(resultItem),
-        genre: resultItem.primaryGenreName,
-        url: resultItem.trackViewUrl,
-        albumArtworkURL: parseArtworkUrl(resultItem)
-    }
-}
-
-function parseAudiobookSearchResult(resultItem) {
-    return {
-        id: resultItem.collectionId,
-        trackId: resultItem.collectionId,
-        name: resultItem.collectionName,
-        artwork: parseArtworkUrl(resultItem),
-        genre: resultItem.primaryGenreName,
-        url: resultItem.collectionViewUrl,
-        albumArtworkURL: parseArtworkUrl(resultItem)
-    }
-}
-
-function parseSongSearchResult(resultItem) {
-    return {
-        id: resultItem.trackId,
-        trackId: resultItem.trackId,
-        name: resultItem.trackName,
-        artwork: parseArtworkUrl(resultItem),
-        genre: resultItem.primaryGenreName,
-        url: resultItem.trackViewUrl,
         albumArtworkURL: parseArtworkUrl(resultItem)
     }
 }
 
 function parseMovieSearchResult(resultItem) {
     return {
-        id: resultItem.trackId,
-        trackId: resultItem.trackId,
-        name: resultItem.trackName,
-        artwork: parseArtworkUrl(resultItem),
+        id: resultItem.stationuuid,
+        stationuuid: resultItem.stationuuid,
+        name: resultItem.name,
+        favicon: parseArtworkUrl(resultItem),
         genre: resultItem.primaryGenreName,
-        url: resultItem.trackViewUrl,
-        albumArtworkURL: parseArtworkUrl(resultItem)
-    }
-}
-
-function parseMusicVideoSearchResult(resultItem) {
-    return {
-        id: resultItem.trackId,
-        trackId: resultItem.trackId,
-        name: resultItem.trackName,
-        artwork: parseArtworkUrl(resultItem),
-        genre: resultItem.primaryGenreName,
-        url: resultItem.trackViewUrl,
-        albumArtworkURL: parseArtworkUrl(resultItem)
-    }
-}
-
-function parseTVEpisodeSearchResult(resultItem) {
-    return {
-        id: resultItem.trackId,
-        trackId: resultItem.trackId,
-        name: resultItem.trackName,
-        artwork: parseArtworkUrl(resultItem),
-        genre: resultItem.primaryGenreName,
-        url: resultItem.trackViewUrl,
-        albumArtworkURL: parseArtworkUrl(resultItem)
-    }
-}
-
-function parseEbookSearchResult(resultItem) {
-    return {
-        id: resultItem.trackId,
-        trackId: resultItem.trackId,
-        name: resultItem.trackName,
-        artwork: parseArtworkUrl(resultItem),
-        genre: resultItem.primaryGenreName,
-        url: resultItem.trackViewUrl,
+        url: resultItem.url_resolved,
         albumArtworkURL: parseArtworkUrl(resultItem)
     }
 }
